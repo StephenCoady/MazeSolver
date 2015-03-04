@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="550.0" prefWidth="641.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <MenuBar VBox.vgrow="SOMETIMES">
          <menus>
@@ -47,13 +47,9 @@
             </Menu>
          </menus>
       </MenuBar>
-      <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+      <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="459.0" prefWidth="644.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
+            <Pane fx:id="canvas" layoutX="120.0" prefHeight="380.0" prefWidth="401.0" />
          </children>
       </AnchorPane>
    </children>
