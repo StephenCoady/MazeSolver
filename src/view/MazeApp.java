@@ -31,7 +31,7 @@ public class MazeApp extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException, InterruptedException 
 	{
-		solver = new MazeSolver("src/files/more_complex_maze.txt");
+		solver = new MazeSolver("src/files/complex_maze.txt");
 		int[] dimensions = solver.getDimensions();
 		int width = dimensions[0];
 		int height = dimensions[1];

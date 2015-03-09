@@ -5,12 +5,14 @@ public class Square
 	private int x;
 	private int y;
 	private String type;
+	private boolean visited;
 	
 	public Square(int x, int y, String type)
 	{
 		setX(x);
 		setY(y);
 		setType(type);
+		setVisited(false);
 	}
 
 	public int getX() {
@@ -37,5 +39,13 @@ public class Square
 		this.type = type;
 	}
 	
+	public boolean isVisited()
+	{
+		return this.visited;
+	}
 	
+	public void setVisited(boolean visited)
+	{
+		this.visited = visited;
+	}
 }
