@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import edu.princeton.cs.introcs.StdOut;
+
 public class Maze 
 {
 	private int width;
@@ -9,6 +11,7 @@ public class Maze
 	private Square startSquare;
 	private Square finishSquare;
 	private String[][] squares;
+	private Boolean[][] visitedList;
 	private ArrayList<Square> allSquares;
 	
 	public Maze(int width, int height)
@@ -16,6 +19,7 @@ public class Maze
 		this.width = width;
 		this.height = height;
 		squares = new String[height][width];
+		visitedList = new Boolean[height][width];
 		allSquares = new ArrayList<Square>();
 	}
 
@@ -38,6 +42,7 @@ public class Maze
 	public void addSquare(int height, int width, String type)
 	{
 		squares[height][width] = type;
+		setVisited(height, width, false);
 		allSquares.add(new Square(height, width, type));
 	}
 
@@ -105,7 +110,7 @@ public class Maze
 		{
 			if(!getSquareType(row-1, col).equals("#"))
 			{
-				if(!getSquare(row-1, col).isVisited())
+				if(!getVisited(row-1, col))
 				{
 					neighbour = getSquare(row-1, col);
 					neighbourFound = true;
@@ -118,7 +123,7 @@ public class Maze
 		{
 			if(!getSquareType(row+1, col).equals("#"))
 			{
-				if(!getSquare(row+1, col).isVisited())
+				if(!getVisited(row+1, col))
 				{
 					neighbour = getSquare(row+1, col);
 					neighbourFound = true;
@@ -131,7 +136,7 @@ public class Maze
 		{
 			if(!getSquareType(row, col-1).equals("#"))
 			{
-				if(!getSquare(row, col-1).isVisited())
+				if(!getVisited(row, col-1))
 				{
 					neighbour = getSquare(row, col-1);
 					neighbourFound = true;
@@ -144,7 +149,7 @@ public class Maze
 		{
 			if(!getSquareType(row, col+1).equals("#"))
 			{
-				if(!getSquare(row, col+1).isVisited())
+				if(!getVisited(row, col+1))
 				{
 					neighbour = getSquare(row, col+1);
 					neighbourFound = true;
@@ -153,5 +158,13 @@ public class Maze
 		}
 
 		return neighbour;
+	}
+
+	public Boolean getVisited(int x, int y) {
+		return visitedList[x][y];
+	}
+
+	public void setVisited(int x, int y, boolean visited) {
+		visitedList[x][y] = visited;
 	}
 }

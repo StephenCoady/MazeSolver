@@ -1,56 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.text.*?>
-<?import java.lang.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
 
-<VBox prefHeight="550.0" prefWidth="641.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <MenuBar VBox.vgrow="SOMETIMES">
-         <menus>
-            <Menu mnemonicParsing="false" text="File">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="New" />
-                  <MenuItem mnemonicParsing="false" text="Open…" />
-                  <Menu mnemonicParsing="false" text="Open Recent" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Close" />
-                  <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Save As…" />
-                  <MenuItem mnemonicParsing="false" text="Revert" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Preferences…" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Quit" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Undo" />
-                  <MenuItem mnemonicParsing="false" text="Redo" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Cut" />
-                  <MenuItem mnemonicParsing="false" text="Copy" />
-                  <MenuItem mnemonicParsing="false" text="Paste" />
-                  <MenuItem mnemonicParsing="false" text="Delete" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Select All" />
-                  <MenuItem mnemonicParsing="false" text="Unselect All" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-               </items>
-            </Menu>
-         </menus>
-      </MenuBar>
-      <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="459.0" prefWidth="644.0" VBox.vgrow="ALWAYS">
+<BorderPane fx:id="mainPanel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="627.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MazeApp">
+   <left>
+      <AnchorPane prefHeight="306.0" prefWidth="267.0" BorderPane.alignment="CENTER">
          <children>
-            <Pane fx:id="canvas" layoutX="120.0" prefHeight="380.0" prefWidth="401.0" />
+            <Pane fx:id="topPane" prefHeight="627.0" prefWidth="264.0">
+               <children>
+                  <Button fx:id="stacksButton" layoutX="26.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#solveStack" text="Solve" />
+                  <Button fx:id="queueButton" layoutX="155.0" layoutY="53.0" mnemonicParsing="false" text="Solve" />
+                  <Button fx:id="stepStacksButton" layoutX="26.0" layoutY="99.0" mnemonicParsing="false" text="Step" />
+                  <Button fx:id="stepQueueButton" layoutX="155.0" layoutY="99.0" mnemonicParsing="false" text="Step" />
+                  <Label layoutX="19.0" layoutY="220.0" prefHeight="89.0" prefWidth="205.0" text="Please choose how you would like to solve the maze from the options above." textAlignment="CENTER" wrapText="true" />
+                  <TextArea fx:id="outputText" layoutX="7.0" layoutY="314.0" prefHeight="308.0" prefWidth="250.0" />
+                  <Separator layoutX="7.0" layoutY="290.0" prefHeight="14.0" prefWidth="253.0" />
+                  <Button layoutX="57.0" layoutY="207.0" mnemonicParsing="false" onAction="#newFile" style="-fx-background-color: EE6363;" text="Choose a new file" textFill="#0d0d0d" />
+                  <Label layoutX="26.0" layoutY="16.0" prefHeight="23.0" prefWidth="58.0" text="Stacks" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="155.0" layoutY="16.0" prefHeight="23.0" prefWidth="58.0" text="Queue" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="115.0" orientation="VERTICAL" prefHeight="200.0" />
+                  <Separator layoutX="-1.0" layoutY="39.0" prefHeight="3.0" prefWidth="265.0" />
+               </children>
+            </Pane>
+            <Separator layoutX="263.0" layoutY="-23.0" orientation="VERTICAL" prefHeight="649.0" prefWidth="6.0" />
          </children>
       </AnchorPane>
-   </children>
-</VBox>
+   </left>
+   <center>
+      <AnchorPane fx:id="topCanvas">
+         <children>
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="97.0" layoutY="107.0" prefHeight="414.0" prefWidth="402.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" AnchorPane.bottomAnchor="106.0" AnchorPane.leftAnchor="97.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="107.0" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
