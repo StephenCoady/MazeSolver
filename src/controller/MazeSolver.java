@@ -18,20 +18,19 @@ public class MazeSolver
 	public MazeSolver(String fileLocation)
 	{
 		this.fileLocation = fileLocation;
-				try {
-					setUp();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
+		try {
+			setUp();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
 	}
 
 
-//	public static void main(String[] args) throws FileNotFoundException {
-//		MazeSolver s = new MazeSolver("src/files/simple_maze.txt");
-//		
-//	}
-	
+	//	public static void main(String[] args) throws FileNotFoundException {
+	//		MazeSolver s = new MazeSolver("src/files/maze1.txt");
+	//	}
+
 	public void setUp() throws FileNotFoundException
 	{
 		File file = new File(getFileLocation());
@@ -53,16 +52,15 @@ public class MazeSolver
 			}
 		}
 		maze.findStartPoint();
+		maze.findFinishPoint();
 		sc.close();
-		//depthFirst();
-		//breadthFirst();
 	}
 
 	public Stack<Square> depthFirst()
 	{
+		maze.clearAllVisits();
 		Stack<Square> stack = new Stack<Square>();
-		
-		//start square different to returned square in while loop
+
 		Square startSquare = maze.getStartPoint();
 		stack.push(startSquare);
 		maze.setVisited(startSquare.getX(), startSquare.getY(), true);
@@ -85,26 +83,55 @@ public class MazeSolver
 				stack.pop();
 			}
 		}
+		maze.clearAllVisits();
 		return stack;
 	}
 
-	public void breadthFirst()
+	public void recursiveSolution(Square square)
 	{
-		Queue<Square> queue = new LinkedList<Square>();
-		Square startSquare = maze.getStartPoint();
-		startSquare.setVisited(true);
-		queue.add(startSquare);
-		while(!queue.isEmpty()) {
-			Square square = queue.remove();
-			breadthPath.add(square);
-			Square child=null;
-			while((child = maze.getNeighbour(square))!=null) 
-			{
-				child.setVisited(true);
-				queue.add(child);
+		ArrayList<Square> neighbours = maze.getListofNeighbours(square);
+		maze.setVisited(square.getX(), square.getY(), true);
+		for(int index = 0; index<neighbours.size(); index++)
+		{
+			Square neighbour = neighbours.get(index);
+			if(!maze.getVisited(neighbour.getX(), neighbour.getY())){
+				if(neighbour.getType().equals("*")){
+					maze.setFinish(neighbour.getX(), neighbour.getY());
+					break;
+				}
+				else
+				{
+					recursiveSolution(neighbour);
+				}
 			}
 		}
-		
+	}
+
+	public ArrayList<Square> breadthFirst()
+	{
+		maze.clearAllVisits();
+		Queue<Square> queue = new LinkedList<Square>();
+		Square startSquare = maze.getStartPoint();
+		maze.setVisited(startSquare.getX(), startSquare.getY(), true);
+		queue.add(startSquare);
+		solFound:
+		while(!queue.isEmpty()) {
+			Square square = queue.remove();
+			Square child = null;
+			while((child=maze.getNeighbour(square))!=null)
+			{
+				maze.setVisited(child.getX(), child.getY(), true);
+				queue.add(child);
+				breadthPath.add(child);
+				if(child.getType().equals("*"))
+				{
+					maze.setFinish(child.getX(), child.getY());
+					break solFound;
+				}
+			}
+		}
+		maze.clearAllVisits();
+		return breadthPath;
 	}
 
 	public int[] getDimensions() throws FileNotFoundException
@@ -141,5 +168,15 @@ public class MazeSolver
 
 	public void setFileLocation(String fileLocation) {
 		this.fileLocation = fileLocation;
+	}
+
+
+	public Maze getMaze() {
+		return maze;
+	}
+
+
+	public void setMaze(Maze maze) {
+		this.maze = maze;
 	}
 }

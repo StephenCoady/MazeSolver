@@ -3,7 +3,15 @@ package model;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import com.sun.javafx.geom.BaseBounds;
+import com.sun.javafx.geom.transform.BaseTransform;
+import com.sun.javafx.jmx.MXNodeAlgorithm;
+import com.sun.javafx.jmx.MXNodeAlgorithmContext;
+import com.sun.javafx.sg.prism.NGNode;
+
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
@@ -19,6 +27,7 @@ public class GridDisplay extends Pane{
 	private int nRows;
 	private int nCols;
 	private ArrayList<String> maze = null;
+	private static ArrayList<Square> previouslyColoured = new ArrayList<Square>();
 
 	public GridDisplay(int nRows, int nCols) 
 	{
@@ -27,6 +36,7 @@ public class GridDisplay extends Pane{
 		tilePane.setVgap(GAP);
 		setColumns(nCols);
 		setRows(nRows);
+		tilePane.setCache(true);
 	}
 
 	public void setColumns(int newColumns) 
@@ -107,6 +117,77 @@ public class GridDisplay extends Pane{
 			}
 		}
 	}
+	
+	public void colorSolvedQueue(ArrayList<Square> squares) 
+	{
+		
+		tilePane.getChildren().clear();
+		for (int i = 0; i < nRows; i++) {
+			for (int j = 0; j < nCols; j++) {
+				if(maze==null)
+					tilePane.getChildren().add(createElement(Color.RED));
+				else
+				{
+					Color color = Color.WHITE;
+					if(Character.toString(maze.get(i).charAt(j)).equals("."))
+					{
+						for(int e = 0; e<squares.size();e++)
+						{
+							if(squares.get(e).getX() == i && squares.get(e).getY() == j)
+							{
+								color = Color.YELLOW;
+							}
+						}
+					}
+					if(Character.toString(maze.get(i).charAt(j)).equals("#"))
+						color = Color.BLACK;
+					if(Character.toString(maze.get(i).charAt(j)).equals("o"))
+						color = Color.GREEN;
+					if(Character.toString(maze.get(i).charAt(j)).equals("*"))
+						color = Color.RED;
+					tilePane.getChildren().add(createElement(color));
+				}
+			}
+		}
+	}
+	
+	public void colorStep(Square nextSquare) 
+	{
+		ArrayList<Square> tempSquares = new ArrayList<Square>();
+		previouslyColoured.add(nextSquare);
+		for(Square square: previouslyColoured)
+		{
+			tempSquares.add(square);
+		}
+		tilePane.getChildren().clear();
+		for (int i = 0; i < nRows; i++) {
+			for (int j = 0; j < nCols; j++) {
+				if(maze==null)
+					tilePane.getChildren().add(createElement(Color.RED));
+				else
+				{
+					Color color = Color.WHITE;
+					if(Character.toString(maze.get(i).charAt(j)).equals("."))
+					{
+						for(int e = 0; e<tempSquares.size();e++)
+						{
+							if(tempSquares.get(e).getX() == i && tempSquares.get(e).getY() == j)
+							{
+								color = Color.YELLOW;
+							}
+						}
+					}
+					if(Character.toString(maze.get(i).charAt(j)).equals("#"))
+						color = Color.BLACK;
+					if(Character.toString(maze.get(i).charAt(j)).equals("o"))
+						color = Color.GREEN;
+					if(Character.toString(maze.get(i).charAt(j)).equals("*"))
+						color = Color.RED;
+					tilePane.getChildren().add(createElement(color));
+				}
+			}
+		}
+	}
 
 
 	public void setMaze(ArrayList<String> maze)
@@ -136,5 +217,9 @@ public class GridDisplay extends Pane{
 
 	public void setGAP(double gAP) {
 		GAP = gAP;
+	}
+	
+	public static void emptyPreviouslyColoured() {
+		previouslyColoured.removeAll(previouslyColoured);
 	}
 }

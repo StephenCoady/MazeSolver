@@ -88,6 +88,21 @@ public class Maze
 		}
 	}
 	
+	public void findFinishPoint()
+	{
+		for(int x = 0; x < getHeight(); x++)
+		{
+			for(int y = 0; y <getWidth(); y++)
+			{
+				if(getSquareType(x, y).equals("*"))
+				{
+					setFinish(x, y);
+					break;
+				}
+			}
+		}
+	}
+	
 	public Square getStartPoint()
 	{
 		return startSquare;
@@ -159,6 +174,69 @@ public class Maze
 
 		return neighbour;
 	}
+	public ArrayList<Square> getListofNeighbours(Square square)
+	{
+		ArrayList<Square> squares = new ArrayList<Square>();
+		int row = square.getX();
+		int col = square.getY();
+
+		//get northern neighbour
+		if(row>0)
+		{
+			if(!getSquareType(row-1, col).equals("#"))
+			{
+				if(!getVisited(row-1, col))
+				{
+					Square neighbour = getSquare(row-1, col);
+					squares.add(neighbour);
+				}
+			}
+		}
+
+		//get southern neighbour
+		if(getHeight()>row)
+		{
+			if(!getSquareType(row+1, col).equals("#"))
+			{
+				if(!getVisited(row+1, col))
+				{
+					Square neighbour = getSquare(row+1, col);
+					squares.add(neighbour);
+
+				}
+			}
+		}
+
+		//get western neighbour
+		if(col>0)
+		{
+			if(!getSquareType(row, col-1).equals("#"))
+			{
+				if(!getVisited(row, col-1))
+				{
+					Square neighbour = getSquare(row, col-1);
+					squares.add(neighbour);
+
+				}
+			}
+		}
+
+		//get eastern neighbour
+		if(getWidth()>col)
+		{
+			if(!getSquareType(row, col+1).equals("#"))
+			{
+				if(!getVisited(row, col+1))
+				{
+					Square neighbour = getSquare(row, col+1);
+					squares.add(neighbour);
+
+				}
+			}
+		}
+
+		return squares;
+	}
 
 	public Boolean getVisited(int x, int y) {
 		return visitedList[x][y];
@@ -166,5 +244,16 @@ public class Maze
 
 	public void setVisited(int x, int y, boolean visited) {
 		visitedList[x][y] = visited;
+	}
+	
+	public void clearAllVisits()
+	{
+		for(int i = 0; i< height; i++)
+		{
+			for(int j = 0; j < width; j++)
+			{
+				setVisited(i, j, false);
+			}
+		}
 	}
 }
