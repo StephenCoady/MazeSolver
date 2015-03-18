@@ -15,6 +15,8 @@ public class MazeSolver
 	private String fileLocation;
 	private ArrayList<Square> breadthPath = new ArrayList<Square>();
 	private ArrayList<Square> depthPath = new ArrayList<Square>();
+	private ArrayList<Square> recursivePath = new ArrayList<Square>();
+	private boolean recursiveFound = false;
 
 	public MazeSolver(String fileLocation)
 	{
@@ -89,25 +91,32 @@ public class MazeSolver
 		return stack;
 	}
 
-	public void recursiveSolution(Square square)
-	{
-		ArrayList<Square> neighbours = maze.getListofNeighbours(square);
-		maze.setVisited(square.getX(), square.getY(), true);
-		for(int index = 0; index<neighbours.size(); index++)
-		{
-			Square neighbour = neighbours.get(index);
-			if(!maze.getVisited(neighbour.getX(), neighbour.getY())){
-				if(neighbour.getType().equals("*")){
-					maze.setFinish(neighbour.getX(), neighbour.getY());
-					break;
-				}
-				else
-				{
-					recursiveSolution(neighbour);
-				}
-			}
-		}
-	}
+//	public int recursiveSolution(Square square)
+//	{
+//		ArrayList<Square> neighbours = maze.getListofNeighbours(square);
+//		maze.setVisited(square.getX(), square.getY(), true);
+//		for(int i = 0; i<neighbours.size(); i++)
+//		{
+//			Square neighbour = neighbours.get(i);
+//			if(!maze.getVisited(neighbour.getX(), neighbour.getY()))
+//			{
+//				recursivePath.add(neighbour);
+//				if(neighbour.getType().equals("*"))
+//				{
+//					recursiveFound = true;
+//					maze.setFinish(neighbour.getX(), neighbour.getY());
+//					return -1;
+//				}
+//				else
+//				{
+//					if(!recursiveFound)
+//					recursiveSolution(neighbour);
+//				}
+//			}
+//		}
+//		maze.clearAllVisits();
+//		return 0;
+//	}
 
 	public ArrayList<Square> breadthFirst()
 	{
@@ -117,21 +126,21 @@ public class MazeSolver
 		maze.setVisited(startSquare.getX(), startSquare.getY(), true);
 		queue.add(startSquare);
 		solFound:
-		while(!queue.isEmpty()) {
-			Square square = queue.remove();
-			Square child = null;
-			while((child=maze.getNeighbour(square))!=null)
-			{
-				maze.setVisited(child.getX(), child.getY(), true);
-				queue.add(child);
-				breadthPath.add(child);
-				if(child.getType().equals("*"))
+			while(!queue.isEmpty()) {
+				Square square = queue.remove();
+				Square child = null;
+				while((child=maze.getNeighbour(square))!=null)
 				{
-					maze.setFinish(child.getX(), child.getY());
-					break solFound;
+					maze.setVisited(child.getX(), child.getY(), true);
+					queue.add(child);
+					breadthPath.add(child);
+					if(child.getType().equals("*"))
+					{
+						maze.setFinish(child.getX(), child.getY());
+						break solFound;
+					}
 				}
 			}
-		}
 		maze.clearAllVisits();
 		return breadthPath;
 	}
@@ -187,4 +196,7 @@ public class MazeSolver
 		return depthPath;
 	}
 
+	public ArrayList<Square> getRecursivePath() {
+		return recursivePath;
+	}
 }

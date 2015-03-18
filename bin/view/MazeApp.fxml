@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.input.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
@@ -14,30 +15,69 @@
          <children>
             <Pane prefHeight="627.0" prefWidth="264.0">
                <children>
-                  <Button layoutX="26.0" layoutY="53.0" mnemonicParsing="false" onMouseClicked="#solveStack" text="Solve" />
-                  <Button layoutX="155.0" layoutY="53.0" mnemonicParsing="false" onAction="#solveQueue" text="Solve" />
-                  <Button layoutX="28.0" layoutY="99.0" mnemonicParsing="false" onAction="#solveStackByStep" text="Step" />
-                  <Button layoutX="157.0" layoutY="99.0" mnemonicParsing="false" onAction="#solveQueueByStep" text="Step" />
-                  <Label layoutX="19.0" layoutY="220.0" prefHeight="89.0" prefWidth="205.0" text="Please choose how you would like to solve the maze from the options above." textAlignment="CENTER" wrapText="true" />
+                  <Button layoutX="143.0" layoutY="84.0" mnemonicParsing="false" onMouseClicked="#solveStack" text="Solve">
+                     <font>
+                        <Font size="11.0" />
+                     </font></Button>
+                  <Button layoutX="143.0" layoutY="115.0" mnemonicParsing="false" onAction="#solveQueue" text="Solve">
+                     <font>
+                        <Font size="11.0" />
+                     </font></Button>
+                  <Button layoutX="210.0" layoutY="84.0" mnemonicParsing="false" onAction="#solveStackByStep" text="Step">
+                     <font>
+                        <Font size="11.0" />
+                     </font></Button>
+                  <Button layoutX="210.0" layoutY="115.0" mnemonicParsing="false" onAction="#solveQueueByStep" text="Step">
+                     <font>
+                        <Font size="11.0" />
+                     </font></Button>
                   <TextArea fx:id="outputText" editable="false" layoutX="7.0" layoutY="314.0" prefHeight="308.0" prefWidth="250.0" wrapText="true" />
-                  <Separator layoutX="7.0" layoutY="290.0" prefHeight="14.0" prefWidth="253.0" />
-                  <Button layoutX="50.0" layoutY="207.0" mnemonicParsing="false" onAction="#newFile" style="-fx-background-color: EE6363;" text="Choose a new file" textFill="#0d0d0d" />
-                  <Label layoutX="26.0" layoutY="16.0" prefHeight="23.0" prefWidth="58.0" text="Stacks" textAlignment="CENTER">
+                  <Separator layoutY="290.0" prefHeight="13.0" prefWidth="264.0" />
+                  <Label layoutX="17.0" layoutY="83.0" prefHeight="23.0" prefWidth="106.0" text="Stacks" textAlignment="CENTER">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="155.0" layoutY="16.0" prefHeight="23.0" prefWidth="58.0" text="Queue" textAlignment="CENTER">
+                  <Label layoutX="17.0" layoutY="114.0" prefHeight="23.0" prefWidth="85.0" text="Queue" textAlignment="CENTER">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="14.0" />
                      </font>
                   </Label>
-                  <Separator layoutX="115.0" orientation="VERTICAL" prefHeight="169.0" prefWidth="6.0" />
-                  <Separator layoutX="-1.0" layoutY="39.0" prefHeight="3.0" prefWidth="265.0" />
-                  <Button layoutX="70.0" layoutY="175.0" mnemonicParsing="false" onAction="#displayMaze" text="Clear Maze" textFill="#6198e1" />
+                  <Separator layoutY="106.0" prefHeight="10.0" prefWidth="265.0" />
+                  <Separator layoutX="-2.0" layoutY="170.0" prefHeight="8.0" prefWidth="268.0" />
+                  <Button layoutX="143.0" layoutY="147.0" mnemonicParsing="false" text="Solve">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="210.0" layoutY="147.0" mnemonicParsing="false" text="Step">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Button>
+                  <Label layoutX="17.0" layoutY="146.0" prefHeight="23.0" prefWidth="85.0" text="Recursion" textAlignment="CENTER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="-1.0" layoutY="136.0" prefHeight="12.0" prefWidth="266.0" />
+                  <Label layoutX="8.0" prefHeight="77.0" prefWidth="248.0" text="Choose how you would like to solve the maze:" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="1.0" layoutY="72.0" prefHeight="16.0" prefWidth="265.0" />
+                  <Separator layoutX="193.0" layoutY="79.0" orientation="VERTICAL" prefHeight="95.0" prefWidth="12.0" />
+                  <Label layoutX="8.0" layoutY="295.0" prefHeight="19.0" prefWidth="59.0" text="Console" underline="true" />
+                  <Separator layoutX="126.0" layoutY="79.0" orientation="VERTICAL" prefHeight="95.0" prefWidth="12.0" />
                </children>
             </Pane>
-            <Separator layoutX="263.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="627.0" prefWidth="2.0" />
+            <Separator layoutX="263.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="723.0" prefWidth="4.0" />
+            <Label layoutX="14.0" layoutY="684.0" prefHeight="23.0" prefWidth="179.0" text="© 2015 Stephen Coady">
+               <font>
+                  <Font size="9.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </left>
@@ -52,4 +92,31 @@
          </children>
       </AnchorPane>
    </center>
+   <top>
+      <MenuBar fx:id="myMenuBar" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="openCmd" mnemonicParsing="false" onAction="#newFile" text="Open" />
+                  <MenuItem fx:id="exitCmd" mnemonicParsing="false" onAction="#exit" text="Exit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem fx:id="clearCmd" mnemonicParsing="false" onAction="#displayMaze" text="Clear" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="View">
+               <items>
+                  <MenuItem fx:id="fullCmd" mnemonicParsing="false" onAction="#fullScreen" text="Full Screen" />
+               </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem fx:id="aboutCmd" mnemonicParsing="false" onAction="#about" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
 </BorderPane>

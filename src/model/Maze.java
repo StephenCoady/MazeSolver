@@ -13,7 +13,7 @@ public class Maze
 	private String[][] squares;
 	private Boolean[][] visitedList;
 	private ArrayList<Square> allSquares;
-	
+
 	public Maze(int width, int height)
 	{
 		this.width = width;
@@ -38,7 +38,7 @@ public class Maze
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
+
 	public void addSquare(int height, int width, String type)
 	{
 		squares[height][width] = type;
@@ -49,7 +49,7 @@ public class Maze
 	public String getSquareType(int height, int width) {
 		return squares[height][width];
 	}
-	
+
 	public Square getSquare(int height, int width)
 	{
 		for(Square square : allSquares)
@@ -61,18 +61,18 @@ public class Maze
 		}
 		return null;
 	}
-	
+
 	public void setStart(int x, int y)
 	{
 		startSquare = new Square(x, y, "o");
 	}
-	
+
 	//will only be set when the finish is found
 	public void setFinish(int x, int y)
 	{
 		finishSquare = new Square(x, y, "*");
 	}
-	
+
 	public void findStartPoint()
 	{
 		for(int x = 0; x < getHeight(); x++)
@@ -87,7 +87,7 @@ public class Maze
 			}
 		}
 	}
-	
+
 	public void findFinishPoint()
 	{
 		for(int x = 0; x < getHeight(); x++)
@@ -102,17 +102,17 @@ public class Maze
 			}
 		}
 	}
-	
+
 	public Square getStartPoint()
 	{
 		return startSquare;
 	}
-	
+
 	public Square getFinishPoint()
 	{
 		return finishSquare;
 	}
-	
+
 	public Square getNeighbour(Square square)
 	{
 		Square neighbour = null;
@@ -128,19 +128,6 @@ public class Maze
 				if(!getVisited(row-1, col))
 				{
 					neighbour = getSquare(row-1, col);
-					neighbourFound = true;
-				}
-			}
-		}
-
-		//get southern neighbour
-		if(getHeight()>row && !neighbourFound)
-		{
-			if(!getSquareType(row+1, col).equals("#"))
-			{
-				if(!getVisited(row+1, col))
-				{
-					neighbour = getSquare(row+1, col);
 					neighbourFound = true;
 				}
 			}
@@ -167,6 +154,19 @@ public class Maze
 				if(!getVisited(row, col+1))
 				{
 					neighbour = getSquare(row, col+1);
+					neighbourFound = true;
+				}
+			}
+		}
+
+		//get southern neighbour
+		if(getHeight()>row && !neighbourFound)
+		{
+			if(!getSquareType(row+1, col).equals("#"))
+			{
+				if(!getVisited(row+1, col))
+				{
+					neighbour = getSquare(row+1, col);
 					neighbourFound = true;
 				}
 			}
@@ -245,7 +245,7 @@ public class Maze
 	public void setVisited(int x, int y, boolean visited) {
 		visitedList[x][y] = visited;
 	}
-	
+
 	public void clearAllVisits()
 	{
 		for(int i = 0; i< height; i++)

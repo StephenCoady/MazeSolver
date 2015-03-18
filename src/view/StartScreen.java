@@ -1,12 +1,13 @@
 package view;
 
-import controller.*;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 
-import model.GridDisplay;
 import edu.princeton.cs.introcs.StdOut;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -16,10 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -50,21 +48,22 @@ public class StartScreen extends Application {
 	}
 
 	@FXML
-	public void newFile()
+	public boolean newFile()
 	{
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Maze File");
 		File selectedFile = fileChooser.showOpenDialog(null);
 		if (selectedFile != null) {
 			chosenFile.setText(selectedFile.getAbsolutePath());
+			return true;
 		}
+		return false;
 	}
 
 	@FXML
 	public void chooseFile(ActionEvent event) throws IOException, InterruptedException
 	{
 		startUp(chosenFile.getText());
-		
 		((Node)(event.getSource())).getScene().getWindow().hide();
 	}
 
@@ -98,11 +97,8 @@ public class StartScreen extends Application {
 	{
 		MazeApp systemController = new MazeApp(path);
 
-		FXMLLoader loader = new FXMLLoader(
-				getClass().getResource("MazeApp.fxml")
-				);
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("MazeApp.fxml"));
 		loader.setController(systemController);
-		systemController.displayMaze();
 
 		Stage mainStage = new Stage();
 		mainStage.setTitle("Maze Solver");

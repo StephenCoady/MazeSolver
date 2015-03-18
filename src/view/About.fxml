@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextArea editable="false" layoutX="43.0" layoutY="87.0" prefHeight="227.0" prefWidth="504.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dignissim odio quam, id rutrum risus venenatis nec. Integer bibendum massa ac libero ullamcorper feugiat. Mauris sodales quam nisi, at congue sapien egestas vitae. Vivamus interdum eros non nunc sollicitudin, quis sagittis orci cursus. Aenean vestibulum enim in imperdiet aliquam. Proin sed varius dolor, in hendrerit ante. Integer nec sem posuere, auctor erat non, dapibus felis.&#10;&#10;Aliquam massa nunc, accumsan quis ligula eu, iaculis molestie risus. Nunc hendrerit dui at velit dictum porttitor. Proin congue felis nec sagittis dictum. Donec convallis euismod arcu vitae egestas. Suspendisse eu aliquet lacus. Donec consequat libero risus, id aliquam augue auctor non. Fusce condimentum quis neque a tincidunt. Nam magna tellus, malesuada quis ultricies vel, efficitur accumsan turpis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet urna accumsan, accumsan nisi vel, congue massa." wrapText="true" />
+      <Label layoutX="417.0" layoutY="345.0" prefHeight="16.0" prefWidth="130.0" text="© 2015 Stephen Coady">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

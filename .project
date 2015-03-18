@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>files</name>
-			<type>2</type>
-			<location>/Users/Stephen/dev/Data_Structures/MazeSolver/src/files</location>
-		</link>
-	</linkedResources>
 </projectDescription>
