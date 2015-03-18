@@ -27,12 +27,12 @@ public class StartScreen extends Application {
 
 	@FXML private TextField chosenFile = new TextField();
 
-	private String mazeOneLocation = "../MazeSolver/src/files/maze1.txt";
-	private String mazeTwoLocation = "../MazeSolver/src/files/maze2.txt";
-	private String mazeThreeLocation = "../MazeSolver/src/files/maze3.txt";
-	private String mazeFourLocation = "../MazeSolver/src/files/maze4.txt";
-	private String mazeFiveLocation = "../MazeSolver/src/files/maze5.txt";
-	private String mazeSixLocation = "../MazeSolver/src/files/maze6.txt";
+	private String mazeOneLocation = System.getProperty("user.dir")+"/"+"src/files/maze1.txt";
+	private String mazeTwoLocation = System.getProperty("user.dir")+"/"+"src/files/maze2.txt";
+	private String mazeThreeLocation = System.getProperty("user.dir")+"/"+"src/files/maze3.txt";
+	private String mazeFourLocation = System.getProperty("user.dir")+"/"+"src/files/maze4.txt";
+	private String mazeFiveLocation = System.getProperty("user.dir")+"/"+"src/files/maze5.txt";
+	private String mazeSixLocation = System.getProperty("user.dir")+"/"+"src/files/maze6.txt";
 
 	public static void main(String[] args) {
 		launch(args);
@@ -99,7 +99,9 @@ public class StartScreen extends Application {
 		MazeApp systemController = new MazeApp(path);
 
 		FXMLLoader loader = new FXMLLoader(
-				getClass().getResource("MazeApp.fxml")
+				getClass().getResource(
+						"MazeApp.fxml"
+						)
 				);
 		loader.setController(systemController);
 		systemController.displayMaze();

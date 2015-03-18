@@ -16,7 +16,7 @@
             <Button layoutX="27.0" layoutY="149.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="26.0" prefWidth="206.0" text="OK" />
             <Separator layoutX="257.0" layoutY="49.0" orientation="VERTICAL" prefHeight="188.0" prefWidth="9.0" />
             <Separator layoutX="266.0" layoutY="49.0" orientation="VERTICAL" prefHeight="188.0" prefWidth="9.0" />
-            <Label layoutX="27.0" layoutY="8.0" prefHeight="40.0" prefWidth="241.0" text="Please start by choosing a maze. " textAlignment="CENTER" wrapText="true">
+            <Label layoutX="27.0" layoutY="8.0" prefHeight="40.0" prefWidth="226.0" text="Please start by choosing a maze. " textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="14.0" />
                </font>
@@ -25,10 +25,10 @@
             <Button layoutX="506.0" layoutY="106.0" mnemonicParsing="false" onAction="#chooseSampleMaze" text="Maze 3" />
             <Button layoutX="506.0" layoutY="149.0" mnemonicParsing="false" onAction="#chooseSampleMaze" text="Maze 5" />
             <Button layoutX="506.0" layoutY="189.0" mnemonicParsing="false" onAction="#chooseSampleMaze" text="Maze 6" />
-            <Label layoutX="275.0" layoutY="63.0" prefHeight="26.0" prefWidth="135.0" text="Simple Mazes:" />
-            <Label layoutX="275.0" layoutY="106.0" prefHeight="26.0" prefWidth="135.0" text="More Complex:" />
-            <Label layoutX="275.0" layoutY="154.0" prefHeight="16.0" prefWidth="142.0" text="Even More Complex:" />
-            <Label layoutX="275.0" layoutY="194.0" prefHeight="16.0" prefWidth="89.0" text="Really?" />
+            <Label layoutX="275.0" layoutY="63.0" prefHeight="26.0" prefWidth="96.0" text="Simple Mazes:" />
+            <Label layoutX="275.0" layoutY="106.0" prefHeight="26.0" prefWidth="96.0" text="More Complex:" />
+            <Label layoutX="275.0" layoutY="154.0" text="Even More Complex:" />
+            <Label layoutX="275.0" layoutY="194.0" text="Really?" />
             <Button layoutX="425.0" layoutY="63.0" mnemonicParsing="false" onAction="#chooseSampleMaze" text="Maze 1" />
             <Button layoutX="425.0" layoutY="149.0" mnemonicParsing="false" onAction="#chooseSampleMaze" prefHeight="26.0" prefWidth="64.0" text="Maze 4" />
             <Separator layoutX="275.0" layoutY="97.0" prefHeight="3.0" prefWidth="294.0" />

@@ -65,6 +65,29 @@ public class MazeApp implements Initializable{
 		MazeApp.fileLocation = fileLocation;
 	}
 	
+//	@Override
+//	public void start(Stage primaryStage) throws IOException, InterruptedException 
+//	{		
+//		primaryStage.setTitle("Maze Solver");
+//		mainPanel = FXMLLoader.load(getClass().getResource("MazeApp.fxml"));
+//		scene = new Scene(mainPanel);
+//
+//		stackSquares = new ArrayList<Square>();
+//		solver = new MazeSolver(fileLocation);
+//		maze = solver.getMazeLayout();
+//
+//		AnchorPane.setBottomAnchor(scrollPane, 10.0);
+//		AnchorPane.setTopAnchor(scrollPane, 10.0);
+//		AnchorPane.setRightAnchor(scrollPane, 10.0);
+//		AnchorPane.setLeftAnchor(scrollPane, 10.0);
+//
+//		scrollPane.setStyle("-fx-background-color: transparent;");
+//		
+//		primaryStage.setScene(scene);
+//		primaryStage.centerOnScreen();
+//		primaryStage.show();
+//		displayMaze();
+//	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -90,6 +113,7 @@ public class MazeApp implements Initializable{
 		gridDisplay = new GridDisplay(height, width);
 		gridDisplay.setMaze(maze);
 		gridDisplay.createElements();
+		
 
 		topPane.getChildren().clear();
 		topPane.getChildren().add(gridDisplay.getDisplay());
