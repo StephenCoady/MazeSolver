@@ -3,12 +3,20 @@ package view;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.util.Scanner;
 
+import model.Maze;
 import edu.princeton.cs.introcs.StdOut;
+import files.Dummy;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -45,6 +53,7 @@ public class StartScreen extends Application {
 		primaryStage.setResizable(false);
 		primaryStage.centerOnScreen();
 		primaryStage.show();
+
 	}
 
 	@FXML
@@ -68,10 +77,11 @@ public class StartScreen extends Application {
 	}
 
 	@FXML
-	public void chooseSampleMaze(ActionEvent event) throws IOException, InterruptedException
+	public void chooseSampleMaze(ActionEvent event) throws IOException, InterruptedException, URISyntaxException
 	{
 		String path = null;
-		if(event.getSource().toString().contains("Maze 1")){
+		if(event.getSource().toString().contains("Maze 1"))
+		{
 			path = mazeOneLocation;
 		}
 		if(event.getSource().toString().contains("Maze 2")){
@@ -95,7 +105,7 @@ public class StartScreen extends Application {
 
 	private void startUp(String path) throws IOException
 	{
-		MazeApp systemController = new MazeApp(path);
+		MazeApp systemController = new MazeApp(path, null);
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("MazeApp.fxml"));
 		loader.setController(systemController);

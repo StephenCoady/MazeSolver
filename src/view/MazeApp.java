@@ -3,37 +3,35 @@ package view;
 
 import controller.*;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
-import edu.princeton.cs.introcs.StdOut;
 import model.GridDisplay;
 import model.Square;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -42,10 +40,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MazeApp implements Initializable{
 
@@ -62,26 +59,36 @@ public class MazeApp implements Initializable{
 	@FXML private MenuItem aboutCmd = new MenuItem();
 	@FXML private MenuItem fullCmd = new MenuItem();
 
+	@FXML private Button recursionSolve = new Button();
+	@FXML private Button recursionStep = new Button();
+	@FXML private Separator recursionDivider = new Separator();
+	@FXML private Separator vertSep1 = new Separator();
+	@FXML private Separator vertSep2 = new Separator();
+	@FXML private Label recursionLabel = new Label();
+
 	private static MazeSolver solver;
 	private static GridDisplay gridDisplay;
 	private static ArrayList<String> maze;
 	private static String fileLocation;
+	private static Boolean stopButton = false;
 	private static ArrayList<Square> stackSquares;
 	private static ArrayList<Square> stackSquaresByStep;
 	private static ArrayList<Square> queueSquares;
 	//private static ArrayList<Square> recursiveSquares;
-	private static String newFile;
+	private static String newFile = "";
+	private Timeline timeline;
+	private String console;
 
 
 	private static int height;
 	private static int width;
 
 
-	public MazeApp(String fileLocation)
+	public MazeApp(String fileLocation, String console)
 	{
 		MazeApp.fileLocation = fileLocation;
+		this.console = console;
 	}
-
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -92,18 +99,24 @@ public class MazeApp implements Initializable{
 			e.printStackTrace();
 		}
 
-		
+		vertSep1.setMaxHeight(63);
+		vertSep2.setMaxHeight(63);
+		recursionSolve.setVisible(false);
+		recursionStep.setVisible(false);
+		recursionDivider.setVisible(false);
+		recursionLabel.setVisible(false);
+
 		if(System.getProperty("os.name").toLowerCase().contains("mac"))
 		{
-			exitCmd.setAccelerator(new KeyCodeCombination(KeyCode.E, KeyCombination.META_DOWN));
-			openCmd.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.META_DOWN));
-			clearCmd.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.META_DOWN));
-			aboutCmd.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.META_DOWN));
-			fullCmd.setAccelerator(new KeyCodeCombination(KeyCode.F, KeyCombination.META_DOWN));
+			exitCmd.setAccelerator(new KeyCodeCombination(KeyCode.Q, KeyCombination.ALT_DOWN));
+			openCmd.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.ALT_DOWN));
+			clearCmd.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.ALT_DOWN));
+			aboutCmd.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.ALT_DOWN));
+			fullCmd.setAccelerator(new KeyCodeCombination(KeyCode.F, KeyCombination.ALT_DOWN));
 		}
 		else
 		{
-			exitCmd.setAccelerator(new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN));
+			exitCmd.setAccelerator(new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN));
 			openCmd.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
 			clearCmd.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN));
 			aboutCmd.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_DOWN));
@@ -113,7 +126,6 @@ public class MazeApp implements Initializable{
 
 	public void displayInitialMaze() throws FileNotFoundException
 	{
-
 		solver = new MazeSolver(fileLocation);
 		maze = solver.getMazeLayout();
 
@@ -128,6 +140,11 @@ public class MazeApp implements Initializable{
 		topPane.getChildren().add(gridDisplay.getDisplay());
 		scrollPane.setContent(topPane);
 
+		if(console!=null){
+		outputText.setText(console);
+		outputText.end();
+		}
+		
 		topCanvas.getChildren().clear();
 		topCanvas.getChildren().add(scrollPane);
 
@@ -170,6 +187,10 @@ public class MazeApp implements Initializable{
 		queueSquares = new ArrayList<Square>();
 		stackSquaresByStep = new ArrayList<Square>();
 
+		stackSquares.clear();
+		queueSquares.clear();
+		stackSquaresByStep.clear();
+
 		Stack<Square> stack = solver.depthFirst();
 		while(!stack.isEmpty()){
 			stackSquares.add(stack.pop());
@@ -205,11 +226,17 @@ public class MazeApp implements Initializable{
 	@FXML
 	public void newFile(ActionEvent event) throws IOException
 	{
+		if(timeline!=null){
+			timeline.stop();
+			}
 		if(openFile())
 		{
-			MazeApp systemController = new MazeApp(newFile);
+			outputText.appendText("New Maze file loaded. \n");
+			outputText.appendText("\n");
 
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Test.fxml"));
+			MazeApp systemController = new MazeApp(newFile, outputText.getText());
+
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("MazeApp.fxml"));
 			loader.setController(systemController);
 
 			Stage mainStage = new Stage();
@@ -227,7 +254,7 @@ public class MazeApp implements Initializable{
 	{
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Maze File");
-		File selectedFile = fileChooser.showOpenDialog(null);
+		File selectedFile = fileChooser.showOpenDialog(myMenuBar.getScene().getWindow());
 		if (selectedFile != null) {
 			newFile = selectedFile.getAbsolutePath();
 			return true;
@@ -355,7 +382,7 @@ public class MazeApp implements Initializable{
 	//	}
 
 	@FXML
-	public void solveStackByStep() throws FileNotFoundException
+	public void solveStackByStep() throws FileNotFoundException, UnsupportedEncodingException
 	{
 		solver = new MazeSolver(fileLocation);
 		maze = solver.getMazeLayout();
@@ -387,6 +414,60 @@ public class MazeApp implements Initializable{
 	}
 
 	@FXML
+	public void playStack() throws FileNotFoundException, UnsupportedEncodingException, InterruptedException
+	{
+		if(!stopButton)
+		{
+			outputText.appendText("Auto-play started. \n");
+			outputText.appendText("\n");
+		}
+		stopButton = false;
+		solver = new MazeSolver(fileLocation);
+		maze = solver.getMazeLayout();
+
+		gridDisplay = new GridDisplay(height, width);
+		gridDisplay.setMaze(maze);
+
+
+		timeline = new Timeline(new KeyFrame(
+				Duration.millis(400),
+				ae -> playStackByStep()));
+		timeline.setCycleCount(Animation.INDEFINITE);
+
+		timeline.play();
+	}
+
+	@FXML
+	public void stopButton()
+	{
+		stopButton = true;
+		outputText.appendText("Auto-play stopped. \n");
+		outputText.appendText("\n");
+	}
+
+	public void playStackByStep()
+	{
+		if(!stackSquaresByStep.isEmpty())
+		{
+			gridDisplay.colorStep(stackSquaresByStep.get(stackSquaresByStep.size()-1));
+			stackSquaresByStep.remove(stackSquaresByStep.size()-1);
+
+			topPane.getChildren().clear();
+			topPane.getChildren().add(gridDisplay.getDisplay());
+			scrollPane.setContent(topPane);
+
+			topCanvas.getChildren().clear();
+			topCanvas.getChildren().add(scrollPane);
+
+
+			mainPanel.setCenter(topCanvas);
+			if(stopButton || stackSquaresByStep.isEmpty()){
+				timeline.stop();
+			}
+		}
+	}
+
+	@FXML
 	public void solveQueueByStep() throws FileNotFoundException
 	{
 		solver = new MazeSolver(fileLocation);
@@ -414,6 +495,52 @@ public class MazeApp implements Initializable{
 			outputText.appendText("No more steps! The solution has been found. "
 					+ "Any remaining blocks will not be explored\n");
 			outputText.appendText("\n");
+		}
+	}
+	
+	@FXML
+	public void playQueue() throws FileNotFoundException, UnsupportedEncodingException, InterruptedException
+	{
+		if(!stopButton)
+		{
+			outputText.appendText("Auto-play started. \n");
+			outputText.appendText("\n");
+		}
+		stopButton = false;
+		solver = new MazeSolver(fileLocation);
+		maze = solver.getMazeLayout();
+
+		gridDisplay = new GridDisplay(height, width);
+		gridDisplay.setMaze(maze);
+
+
+		timeline = new Timeline(new KeyFrame(
+				Duration.millis(300),
+				ae -> playQueueByStep()));
+		timeline.setCycleCount(Animation.INDEFINITE);
+
+		timeline.play();
+	}
+	
+	public void playQueueByStep()
+	{
+		if(!queueSquares.isEmpty())
+		{
+			gridDisplay.colorStep(queueSquares.get(queueSquares.size()-1));
+			queueSquares.remove(queueSquares.size()-1);
+
+			topPane.getChildren().clear();
+			topPane.getChildren().add(gridDisplay.getDisplay());
+			scrollPane.setContent(topPane);
+
+			topCanvas.getChildren().clear();
+			topCanvas.getChildren().add(scrollPane);
+
+
+			mainPanel.setCenter(topCanvas);
+			if(stopButton || queueSquares.isEmpty()){
+				timeline.stop();
+			}
 		}
 	}
 
@@ -462,6 +589,9 @@ public class MazeApp implements Initializable{
 	@FXML
 	public void fullScreen(ActionEvent event) throws IOException
 	{
+		if(timeline!=null){
+			timeline.stop();
+			}
 		Stage stage = (Stage) myMenuBar.getScene().getWindow();
 		stage.setFullScreen(true);
 	}
@@ -469,10 +599,11 @@ public class MazeApp implements Initializable{
 	@FXML
 	public void about(ActionEvent event) throws IOException
 	{
-		About about = new About();
-
+		if(timeline!=null){
+		timeline.stop();
+		}
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("About.fxml"));
-		loader.setController(about);
+		loader.setController(this.getClass());
 
 		Stage mainStage = new Stage();
 		mainStage.setTitle("About Maze Solver");

@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-import edu.princeton.cs.introcs.StdOut;
-import view.*;
 import model.*;
 
 
@@ -15,8 +13,8 @@ public class MazeSolver
 	private String fileLocation;
 	private ArrayList<Square> breadthPath = new ArrayList<Square>();
 	private ArrayList<Square> depthPath = new ArrayList<Square>();
-	private ArrayList<Square> recursivePath = new ArrayList<Square>();
-	private boolean recursiveFound = false;
+	//private ArrayList<Square> recursivePath = new ArrayList<Square>();
+	//private boolean recursiveFound = false;
 
 	public MazeSolver(String fileLocation)
 	{
@@ -28,12 +26,7 @@ public class MazeSolver
 		}
 
 	}
-
-
-	//	public static void main(String[] args) throws FileNotFoundException {
-	//		MazeSolver s = new MazeSolver("src/files/maze1.txt");
-	//	}
-
+	
 	public void setUp() throws FileNotFoundException
 	{
 		File file = new File(getFileLocation());
@@ -196,7 +189,7 @@ public class MazeSolver
 		return depthPath;
 	}
 
-	public ArrayList<Square> getRecursivePath() {
-		return recursivePath;
-	}
+//	public ArrayList<Square> getRecursivePath() {
+//		return recursivePath;
+//	}
 }

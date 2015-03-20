@@ -2,8 +2,6 @@ package model;
 
 import java.util.ArrayList;
 
-import edu.princeton.cs.introcs.StdOut;
-
 public class Maze 
 {
 	private int width;

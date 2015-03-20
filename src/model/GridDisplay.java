@@ -3,15 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import com.sun.javafx.geom.BaseBounds;
-import com.sun.javafx.geom.transform.BaseTransform;
-import com.sun.javafx.jmx.MXNodeAlgorithm;
-import com.sun.javafx.jmx.MXNodeAlgorithmContext;
-import com.sun.javafx.sg.prism.NGNode;
-
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
