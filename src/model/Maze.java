@@ -2,6 +2,11 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * @author Stephen Coady
+ *
+ * a simple model of a maze 
+ */
 public class Maze 
 {
 	private int width;
@@ -12,6 +17,10 @@ public class Maze
 	private Boolean[][] visitedList;
 	private ArrayList<Square> allSquares;
 
+	/**
+	 * @param width - the width of the maze
+	 * @param height - the height of the maze
+	 */
 	public Maze(int width, int height)
 	{
 		this.width = width;
@@ -71,6 +80,9 @@ public class Maze
 		finishSquare = new Square(x, y, "*");
 	}
 
+	/**
+	 *  will set the starting point of the maze
+	 */
 	public void findStartPoint()
 	{
 		for(int x = 0; x < getHeight(); x++)
@@ -86,6 +98,9 @@ public class Maze
 		}
 	}
 
+	/**
+	 *  will set the finishing point of the maze
+	 */
 	public void findFinishPoint()
 	{
 		for(int x = 0; x < getHeight(); x++)
@@ -111,6 +126,10 @@ public class Maze
 		return finishSquare;
 	}
 
+	/**
+	 * @param square - the square to be checked
+	 * @return the first neighbour it can find, depending on which neighbours have been visited or not.
+	 */
 	public Square getNeighbour(Square square)
 	{
 		Square neighbour = null;
@@ -172,6 +191,10 @@ public class Maze
 
 		return neighbour;
 	}
+	/**
+	 * @param square - the square to be checked
+	 * @return returns an arraylist of squares which are neighbours of the passed square
+	 */
 	public ArrayList<Square> getListofNeighbours(Square square)
 	{
 		ArrayList<Square> squares = new ArrayList<Square>();
@@ -236,14 +259,27 @@ public class Maze
 		return squares;
 	}
 
+	/**
+	 * @param x - the x coordinate of the square to be checked
+	 * @param y - the y coordinate of the square to be checked
+	 * @return whether or not the square specified has been visited or not
+	 */
 	public Boolean getVisited(int x, int y) {
 		return visitedList[x][y];
 	}
 
+	/**
+	 * @param x - the x coordinate of the square to be visited
+	 * @param y - the y coordinate of the square to be visited
+	 * @param visited whether the square is to be set as visited or not
+	 */
 	public void setVisited(int x, int y, boolean visited) {
 		visitedList[x][y] = visited;
 	}
 
+	/**
+	 * clear all visited lists and booleans for the maze
+	 */
 	public void clearAllVisits()
 	{
 		for(int i = 0; i< height; i++)

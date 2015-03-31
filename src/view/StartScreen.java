@@ -1,46 +1,24 @@
 package view;
 
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.util.Scanner;
 
-import model.Maze;
-import edu.princeton.cs.introcs.StdOut;
 import files.Dummy;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.event.*;
+import javafx.fxml.*;
+import javafx.scene.*;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import javafx.stage.*;
 
 public class StartScreen extends Application {
 
 	@FXML private TextField chosenFile = new TextField();
 
-	private String mazeOneLocation = "../MazeSolver/src/files/maze1.txt";
-	private String mazeTwoLocation = "../MazeSolver/src/files/maze2.txt";
-	private String mazeThreeLocation = "../MazeSolver/src/files/maze3.txt";
-	private String mazeFourLocation = "../MazeSolver/src/files/maze4.txt";
-	private String mazeFiveLocation = "../MazeSolver/src/files/maze5.txt";
-	private String mazeSixLocation = "../MazeSolver/src/files/maze6.txt";
-
 	public static void main(String[] args) {
+		File dir = new File("resources");
+		dir.mkdir();
 		launch(args);
 	}
 
@@ -80,27 +58,41 @@ public class StartScreen extends Application {
 	public void chooseSampleMaze(ActionEvent event) throws IOException, InterruptedException, URISyntaxException
 	{
 		String path = null;
-		if(event.getSource().toString().contains("Maze 1"))
-		{
-			path = mazeOneLocation;
+		if(event.getSource().toString().contains("Maze 1")){
+			path = writeFile("maze1.txt");
 		}
 		if(event.getSource().toString().contains("Maze 2")){
-			path = mazeTwoLocation;
+			path = writeFile("maze2.txt");
 		}
 		if(event.getSource().toString().contains("Maze 3")){
-			path = mazeThreeLocation;
+			path = writeFile("maze3.txt");
 		}
 		if(event.getSource().toString().contains("Maze 4")){
-			path = mazeFourLocation;
+			path = writeFile("maze4.txt");
 		}
 		if(event.getSource().toString().contains("Maze 5")){
-			path = mazeFiveLocation;
+			path = writeFile("maze5.txt");
 		}
 		if(event.getSource().toString().contains("Maze 6")){
-			path = mazeSixLocation;
+			path = writeFile("maze6.txt");
 		}
 		startUp(path);
 		((Node)(event.getSource())).getScene().getWindow().hide();
+	}
+
+	private String writeFile(String fileName) throws IOException
+	{
+		String path;
+		InputStream stream = Dummy.class.getResourceAsStream(fileName);
+		OutputStream outStream = new FileOutputStream("resources/"+fileName);
+		int i;
+		while((i = stream.read()) != -1)
+		{
+			outStream.write(i);
+		}
+		outStream.close();
+		path = "resources/"+fileName;
+		return path;
 	}
 
 	private void startUp(String path) throws IOException

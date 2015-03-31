@@ -1,15 +1,23 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Stack;
+import java.util.*;
 
 import javafx.scene.Group;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class GridDisplay extends Pane{
+
+
+/**
+ * @author Stephen Coady
+ * @date 23/03/15
+ * 
+ * A custom class to display, repaint and calculate the size of the maze object.
+ *
+ */
+
+public class GridDisplay{
 
 	private static double ELEMENT_SIZE = 30;
 	private static double GAP = ELEMENT_SIZE / 90;
@@ -50,6 +58,11 @@ public class GridDisplay extends Pane{
 		return display;
 	}
 
+	/**
+	 * creates the default maze when no action has been taken to solve it. 
+	 * only the plain colours are painted here.
+	 * 
+	 */
 	public void createElements() 
 	{
 		tilePane.getChildren().clear();
@@ -72,6 +85,11 @@ public class GridDisplay extends Pane{
 		}
 	}
 
+	
+	/**
+	 * @param stack - the list (as a stack) of solution squares. only colours the final path to the solution, 
+	 * not every square traveled.
+	 */
 	public void colorSolved(Stack<Square> stack) 
 	{
 		ArrayList<Square> squares = new ArrayList<Square>();
@@ -110,6 +128,12 @@ public class GridDisplay extends Pane{
 		}
 	}
 	
+	
+	/**
+	 * @param squares - the arraylist of squares showing the total queue solution.
+	 * 
+	 * a method to paint the queue solution for the maze.
+	 */
 	public void colorSolvedQueue(ArrayList<Square> squares) 
 	{
 		
@@ -143,6 +167,13 @@ public class GridDisplay extends Pane{
 		}
 	}
 	
+	
+	/**
+	 * @param nextSquare - the next square to be coloured on the maze. 
+	 * 
+	 * colours one square at a time by remembering the list of previously coloured squares maintained in this class
+	 * 
+	 */
 	public void colorStep(Square nextSquare) 
 	{
 		ArrayList<Square> tempSquares = new ArrayList<Square>();
@@ -187,11 +218,15 @@ public class GridDisplay extends Pane{
 		this.maze = maze;
 	}
 
+	
+	/**
+	 * @param color the color to paint the element (square)
+	 * @return returns the rectangle to the painting process
+	 */
 	private Rectangle createElement(Color color) {
 		Rectangle rectangle = new Rectangle(ELEMENT_SIZE, ELEMENT_SIZE);
 		rectangle.setStroke(Color.BLACK);
 		rectangle.setFill(color);
-
 		return rectangle;
 	}
 

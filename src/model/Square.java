@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * @author Stephen Coady
+ * A model of a square to be placed on a maze
+ */
 public class Square 
 {
 	private int x;
@@ -7,6 +11,11 @@ public class Square
 	private String type;
 	private boolean visited;
 	
+	/**
+	 * @param x the x coordinate of the square
+	 * @param y the y coordinate of the square
+	 * @param type - the type of square, either "*", "o", "#" or ".".
+	 */
 	public Square(int x, int y, String type)
 	{
 		setX(x);

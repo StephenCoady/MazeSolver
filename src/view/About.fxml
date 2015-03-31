@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="487.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TextArea editable="false" layoutX="43.0" layoutY="87.0" prefHeight="227.0" prefWidth="504.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dignissim odio quam, id rutrum risus venenatis nec. Integer bibendum massa ac libero ullamcorper feugiat. Mauris sodales quam nisi, at congue sapien egestas vitae. Vivamus interdum eros non nunc sollicitudin, quis sagittis orci cursus. Aenean vestibulum enim in imperdiet aliquam. Proin sed varius dolor, in hendrerit ante. Integer nec sem posuere, auctor erat non, dapibus felis.&#10;&#10;Aliquam massa nunc, accumsan quis ligula eu, iaculis molestie risus. Nunc hendrerit dui at velit dictum porttitor. Proin congue felis nec sagittis dictum. Donec convallis euismod arcu vitae egestas. Suspendisse eu aliquet lacus. Donec consequat libero risus, id aliquam augue auctor non. Fusce condimentum quis neque a tincidunt. Nam magna tellus, malesuada quis ultricies vel, efficitur accumsan turpis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sit amet urna accumsan, accumsan nisi vel, congue massa." wrapText="true" />
-      <Label layoutX="417.0" layoutY="345.0" prefHeight="16.0" prefWidth="130.0" text="© 2015 Stephen Coady">
+      <TextArea editable="false" layoutX="43.0" layoutY="114.0" prefHeight="291.0" prefWidth="520.0" text="ReadMe:&#10;&#10;Please note Java 8 is needed to run this program.&#10;&#10;This assignment is to allow users to display and solve mazes from plain text files. The text files are made up as follows:&#10;- The first line specifies the dimensions of the maze.&#10;- Walls are denoted by &quot;#&quot; symbols, the start by &quot;o&quot;, the finish by &quot;*&quot; and all open paths by &quot;.&quot;.&#10;&#10;Below are a list of the features included:&#10;- Full GUI implemented.&#10;- Solving using stacks and queues.&#10;- The ability to step through the solution one step at a time.&#10;- The ability to auto-play the solution.&#10;- Console added for feedback.&#10;- JUnit testing added.&#10;- Model, view, controller setup used.&#10;- Runnable JAR included (Java 8 on machine is needed).&#10;- Keyboard shortcuts implemented through menu items at top of GUI." wrapText="true" />
+      <Label layoutX="437.0" layoutY="447.0" prefHeight="16.0" prefWidth="130.0" text="© 2015 Stephen Coady">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
+      <ImageView fx:id="javaLogo" fitHeight="86.0" fitWidth="267.0" layoutX="43.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../files/java.jpg" />
+         </image>
+      </ImageView>
    </children>
 </Pane>

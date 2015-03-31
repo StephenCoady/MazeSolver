@@ -1,11 +1,18 @@
 package controller;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
 
 import model.*;
 
+
+/**
+ * @author Stephen Coady
+ * @date 23/03/15
+ *
+ * a class to solve a maze using breadth-first (queues) and depth-first (stacks) approaches.
+ *
+ */
 
 public class MazeSolver 
 {
@@ -13,8 +20,6 @@ public class MazeSolver
 	private String fileLocation;
 	private ArrayList<Square> breadthPath = new ArrayList<Square>();
 	private ArrayList<Square> depthPath = new ArrayList<Square>();
-	//private ArrayList<Square> recursivePath = new ArrayList<Square>();
-	//private boolean recursiveFound = false;
 
 	public MazeSolver(String fileLocation)
 	{
@@ -27,7 +32,7 @@ public class MazeSolver
 
 	}
 	
-	public void setUp() throws FileNotFoundException
+	private void setUp() throws FileNotFoundException
 	{
 		File file = new File(getFileLocation());
 		Scanner sc = new Scanner(file);
@@ -84,32 +89,6 @@ public class MazeSolver
 		return stack;
 	}
 
-//	public int recursiveSolution(Square square)
-//	{
-//		ArrayList<Square> neighbours = maze.getListofNeighbours(square);
-//		maze.setVisited(square.getX(), square.getY(), true);
-//		for(int i = 0; i<neighbours.size(); i++)
-//		{
-//			Square neighbour = neighbours.get(i);
-//			if(!maze.getVisited(neighbour.getX(), neighbour.getY()))
-//			{
-//				recursivePath.add(neighbour);
-//				if(neighbour.getType().equals("*"))
-//				{
-//					recursiveFound = true;
-//					maze.setFinish(neighbour.getX(), neighbour.getY());
-//					return -1;
-//				}
-//				else
-//				{
-//					if(!recursiveFound)
-//					recursiveSolution(neighbour);
-//				}
-//			}
-//		}
-//		maze.clearAllVisits();
-//		return 0;
-//	}
 
 	public ArrayList<Square> breadthFirst()
 	{
@@ -189,7 +168,4 @@ public class MazeSolver
 		return depthPath;
 	}
 
-//	public ArrayList<Square> getRecursivePath() {
-//		return recursivePath;
-//	}
 }

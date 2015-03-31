@@ -3,45 +3,20 @@ package view;
 
 import controller.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URL;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.ResourceBundle;
-import java.util.Stack;
+import java.util.*;
 
-import model.GridDisplay;
-import model.Square;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+import model.*;
+import javafx.animation.*;
+import javafx.event.*;
+import javafx.fxml.*;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import javafx.scene.control.*;
+import javafx.scene.image.*;
+import javafx.scene.input.*;
+import javafx.scene.layout.*;
+import javafx.stage.*;
 import javafx.util.Duration;
 
 public class MazeApp implements Initializable{
@@ -65,6 +40,7 @@ public class MazeApp implements Initializable{
 	@FXML private Separator vertSep1 = new Separator();
 	@FXML private Separator vertSep2 = new Separator();
 	@FXML private Label recursionLabel = new Label();
+	@FXML private ImageView javaLogo = new ImageView();
 
 	private static MazeSolver solver;
 	private static GridDisplay gridDisplay;
@@ -74,7 +50,6 @@ public class MazeApp implements Initializable{
 	private static ArrayList<Square> stackSquares;
 	private static ArrayList<Square> stackSquaresByStep;
 	private static ArrayList<Square> queueSquares;
-	//private static ArrayList<Square> recursiveSquares;
 	private static String newFile = "";
 	private Timeline timeline;
 	private String console;
@@ -141,10 +116,10 @@ public class MazeApp implements Initializable{
 		scrollPane.setContent(topPane);
 
 		if(console!=null){
-		outputText.setText(console);
-		outputText.end();
+			outputText.setText(console);
+			outputText.end();
 		}
-		
+
 		topCanvas.getChildren().clear();
 		topCanvas.getChildren().add(scrollPane);
 
@@ -207,13 +182,6 @@ public class MazeApp implements Initializable{
 
 		queueSquares = solver.breadthFirst();
 		Collections.reverse(queueSquares);
-
-		//		if(solver.getRecursivePath().isEmpty())
-		//		{
-		//			solver.recursiveSolution(solver.getMaze().getStartPoint());
-		//			recursiveSquares = solver.getRecursivePath();
-		//			Collections.reverse(recursiveSquares);
-		//		}
 		GridDisplay.emptyPreviouslyColoured();
 
 	}
@@ -228,7 +196,7 @@ public class MazeApp implements Initializable{
 	{
 		if(timeline!=null){
 			timeline.stop();
-			}
+		}
 		if(openFile())
 		{
 			outputText.appendText("New Maze file loaded. \n");
@@ -270,6 +238,12 @@ public class MazeApp implements Initializable{
 	@FXML
 	public void solveStack() throws FileNotFoundException
 	{
+		
+		if(timeline!=null){
+			timeline.stop();
+			timeline = null;
+		}
+		
 		double start = System.currentTimeMillis();
 		solver = new MazeSolver(fileLocation);
 		maze = solver.getMazeLayout();
@@ -308,6 +282,12 @@ public class MazeApp implements Initializable{
 	@FXML
 	public void solveQueue() throws FileNotFoundException
 	{
+		
+		if(timeline!=null){
+			timeline.stop();
+			timeline = null;
+		}
+
 		double start = System.currentTimeMillis();
 		solver = new MazeSolver(fileLocation);
 		maze = solver.getMazeLayout();
@@ -343,47 +323,15 @@ public class MazeApp implements Initializable{
 		}
 	}
 
-	//	@FXML
-	//	public void solveRecursive() throws FileNotFoundException
-	//	{
-	//		double start = System.currentTimeMillis();
-	//		solver = new MazeSolver(fileLocation);
-	//		maze = solver.getMazeLayout();
-	//		if(solver.getMaze().getStartPoint()!=null && solver.getMaze().getFinishPoint()!=null)
-	//		{
-	//			solver.recursiveSolution(solver.getMaze().getStartPoint());
-	//
-	//			gridDisplay = new GridDisplay(height, width);
-	//			gridDisplay.setMaze(maze);
-	//			int steps = recursiveSquares.size()-1;
-	//			gridDisplay.colorSolvedQueue(recursiveSquares);
-	//
-	//			double end = System.currentTimeMillis();
-	//			double totalTime = (end - start)/1000;
-	//			outputText.appendText("Solution found using RECURSION: \n");
-	//			outputText.appendText("---" + steps + " steps. \n");
-	//			outputText.appendText("---" + totalTime + " seconds. \n");
-	//			outputText.appendText("\n");
-	//			topPane.getChildren().clear();
-	//			topPane.getChildren().add(gridDisplay.getDisplay());
-	//			scrollPane.setContent(topPane);
-	//
-	//			topCanvas.getChildren().clear();
-	//			topCanvas.getChildren().add(scrollPane);
-	//
-	//
-	//			mainPanel.setCenter(topCanvas);
-	//		}
-	//		else
-	//		{
-	//			outputText.appendText("This maze is missing at least one critical point needed to find a solution. \n");
-	//			outputText.appendText("\n");
-	//		}
-	//	}
 
 	@FXML
 	public void solveStackByStep() throws FileNotFoundException, UnsupportedEncodingException
 	{
+		if(timeline!=null){
+			timeline.stop();
+			timeline = null;
+		}
+
 		solver = new MazeSolver(fileLocation);
 		maze = solver.getMazeLayout();
 
@@ -413,9 +361,25 @@ public class MazeApp implements Initializable{
 		}
 	}
 
+
+	/**
+	 * 
+	 * a method to play the stack by automatically stepping through the solution
+	 * 
+	 */
 	@FXML
 	public void playStack() throws FileNotFoundException, UnsupportedEncodingException, InterruptedException
 	{
+
+
+		// deals with resetting the maze each time play 
+		// is pressed while the maze is already playing
+		displayMaze();
+		if(timeline!=null){
+			timeline.stop();
+			timeline = null;
+		}
+
 		if(!stopButton)
 		{
 			outputText.appendText("Auto-play started. \n");
@@ -497,10 +461,19 @@ public class MazeApp implements Initializable{
 			outputText.appendText("\n");
 		}
 	}
-	
+
 	@FXML
 	public void playQueue() throws FileNotFoundException, UnsupportedEncodingException, InterruptedException
 	{
+
+		// deals with resetting the maze each time play 
+		// is pressed while the maze is already playing
+		displayMaze();
+		if(timeline!=null){
+			timeline.stop();
+			timeline = null;
+		}
+
 		if(!stopButton)
 		{
 			outputText.appendText("Auto-play started. \n");
@@ -521,7 +494,7 @@ public class MazeApp implements Initializable{
 
 		timeline.play();
 	}
-	
+
 	public void playQueueByStep()
 	{
 		if(!queueSquares.isEmpty())
@@ -544,37 +517,6 @@ public class MazeApp implements Initializable{
 		}
 	}
 
-	//	@FXML
-	//	public void solveRecursionByStep() throws FileNotFoundException
-	//	{
-	//		solver = new MazeSolver(fileLocation);
-	//		maze = solver.getMazeLayout();
-	//
-	//		gridDisplay = new GridDisplay(height, width);
-	//		gridDisplay.setMaze(maze);
-	//
-	//		if(!recursiveSquares.isEmpty())
-	//		{
-	//			gridDisplay.colorStep(recursiveSquares.get(recursiveSquares.size()-1));
-	//			recursiveSquares.remove(recursiveSquares.size()-1);
-	//
-	//			topPane.getChildren().clear();
-	//			topPane.getChildren().add(gridDisplay.getDisplay());
-	//			scrollPane.setContent(topPane);
-	//
-	//			topCanvas.getChildren().clear();
-	//			topCanvas.getChildren().add(scrollPane);
-	//
-	//			mainPanel.setCenter(topCanvas);
-	//		}
-	//		else
-	//		{
-	//			outputText.appendText("No more steps! The solution has been found. "
-	//					+ "Any remaining blocks will not be explored\n");
-	//			outputText.appendText("\n");
-	//		}
-	//	}
-
 	public void setMainPanel(BorderPane mainPanel) {
 		this.mainPanel = mainPanel;
 	}
@@ -591,7 +533,7 @@ public class MazeApp implements Initializable{
 	{
 		if(timeline!=null){
 			timeline.stop();
-			}
+		}
 		Stage stage = (Stage) myMenuBar.getScene().getWindow();
 		stage.setFullScreen(true);
 	}
@@ -600,11 +542,13 @@ public class MazeApp implements Initializable{
 	public void about(ActionEvent event) throws IOException
 	{
 		if(timeline!=null){
-		timeline.stop();
+			timeline.stop();
 		}
+		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("About.fxml"));
 		loader.setController(this.getClass());
 
+		
 		Stage mainStage = new Stage();
 		mainStage.setTitle("About Maze Solver");
 		Pane root = (Pane) loader.load();

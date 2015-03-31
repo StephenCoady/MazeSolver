@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.canvas.*?>
 <?import javafx.scene.input.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.paint.*?>
@@ -76,6 +77,7 @@
                   <Separator layoutX="127.0" layoutY="113.0" orientation="VERTICAL" prefHeight="34.0" prefWidth="6.0" />
                   <Separator layoutY="153.0" prefHeight="3.0" prefWidth="265.0" style="-fx-background-color: black;" />
                   <Separator layoutY="219.0" prefHeight="3.0" prefWidth="264.0" style="-fx-background-color: black;" />
+                  <Button layoutX="52.0" layoutY="232.0" mnemonicParsing="false" onAction="#displayMaze" prefHeight="18.0" prefWidth="159.0" text="Clear" />
                </children>
             </Pane>
             <Separator layoutX="263.0" layoutY="-1.0" orientation="VERTICAL" prefHeight="723.0" prefWidth="4.0" />
