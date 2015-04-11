@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /**
  * @author Stephen Coady
+ * @date 31-03-15
  *
  * a simple model of a maze 
  */
@@ -15,6 +16,7 @@ public class Maze
 	private Square finishSquare;
 	private String[][] squares;
 	private Boolean[][] visitedList;
+	private Boolean hasSolution;
 	private ArrayList<Square> allSquares;
 
 	/**
@@ -28,6 +30,7 @@ public class Maze
 		squares = new String[height][width];
 		visitedList = new Boolean[height][width];
 		allSquares = new ArrayList<Square>();
+		this.hasSolution = false;
 	}
 
 	public int getWidth() {
@@ -289,5 +292,53 @@ public class Maze
 				setVisited(i, j, false);
 			}
 		}
+	}
+
+	public Boolean getHasSolution() {
+		return hasSolution;
+	}
+
+	public void setHasSolution(Boolean hasSolution) {
+		this.hasSolution = hasSolution;
+	}
+
+	public Square getStartSquare() {
+		return startSquare;
+	}
+
+	public void setStartSquare(Square startSquare) {
+		this.startSquare = startSquare;
+	}
+
+	public Square getFinishSquare() {
+		return finishSquare;
+	}
+
+	public void setFinishSquare(Square finishSquare) {
+		this.finishSquare = finishSquare;
+	}
+
+	public String[][] getSquares() {
+		return squares;
+	}
+
+	public void setSquares(String[][] squares) {
+		this.squares = squares;
+	}
+
+	public Boolean[][] getVisitedList() {
+		return visitedList;
+	}
+
+	public void setVisitedList(Boolean[][] visitedList) {
+		this.visitedList = visitedList;
+	}
+
+	public ArrayList<Square> getAllSquares() {
+		return allSquares;
+	}
+
+	public void setAllSquares(ArrayList<Square> allSquares) {
+		this.allSquares = allSquares;
 	}
 }

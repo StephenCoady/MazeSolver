@@ -2,6 +2,7 @@ package model;
 
 /**
  * @author Stephen Coady
+ * @date 31-03-15
  * A model of a square to be placed on a maze
  */
 public class Square 

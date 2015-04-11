@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * @author Stephen Coady
- * @date 23/03/15
+ * @date 31-03-15
  * 
  * A custom class to display, repaint and calculate the size of the maze object.
  *

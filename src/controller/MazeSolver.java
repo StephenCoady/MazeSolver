@@ -8,7 +8,7 @@ import model.*;
 
 /**
  * @author Stephen Coady
- * @date 23/03/15
+ * @date 31-03-15
  *
  * a class to solve a maze using breadth-first (queues) and depth-first (stacks) approaches.
  *
@@ -77,6 +77,7 @@ public class MazeSolver
 				if(neighbour.getType().equals("*"))
 				{
 					maze.setFinish(neighbour.getX(), neighbour.getY());
+					maze.setHasSolution(true);
 					break;
 				}
 			}
@@ -109,6 +110,7 @@ public class MazeSolver
 					if(child.getType().equals("*"))
 					{
 						maze.setFinish(child.getX(), child.getY());
+						maze.setHasSolution(true);
 						break solFound;
 					}
 				}

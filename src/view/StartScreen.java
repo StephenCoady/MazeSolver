@@ -12,6 +12,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.*;
 
+/**
+ * @author Stephen Coady
+ * @date 31-03-15
+ * Main class of app. Runs the simple start screen which 
+ * allows the user to use some sample files if they wish.
+ *
+ */
 public class StartScreen extends Application {
 
 	@FXML private TextField chosenFile = new TextField();
@@ -34,8 +41,14 @@ public class StartScreen extends Application {
 
 	}
 
+	/**
+	 * 
+	 * a method to use javafx file chooser to choose a new file.
+	 * 
+	 * @return whether or not the user has actually chosen a file
+	 */
 	@FXML
-	public boolean newFile()
+	private boolean newFile()
 	{
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Maze File");
@@ -48,14 +61,21 @@ public class StartScreen extends Application {
 	}
 
 	@FXML
-	public void chooseFile(ActionEvent event) throws IOException, InterruptedException
+	private void chooseFile(ActionEvent event) throws IOException, InterruptedException
 	{
 		startUp(chosenFile.getText());
 		((Node)(event.getSource())).getScene().getWindow().hide();
 	}
 
+	/**
+	 * a method to choose a file from some pre-prepared ones.
+	 * @param event
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws URISyntaxException
+	 */
 	@FXML
-	public void chooseSampleMaze(ActionEvent event) throws IOException, InterruptedException, URISyntaxException
+	private void chooseSampleMaze(ActionEvent event) throws IOException, InterruptedException, URISyntaxException
 	{
 		String path = null;
 		if(event.getSource().toString().contains("Maze 1")){
@@ -80,6 +100,15 @@ public class StartScreen extends Application {
 		((Node)(event.getSource())).getScene().getWindow().hide();
 	}
 
+	/**
+	 * 
+	 * this method is a workaround to allow the user to choose from some 
+	 * already packaged files when they are using the runnable jar file.
+	 * 
+	 * @param fileName the name of the file to be used.
+	 * @return
+	 * @throws IOException
+	 */
 	private String writeFile(String fileName) throws IOException
 	{
 		String path;

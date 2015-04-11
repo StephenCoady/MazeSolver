@@ -19,6 +19,14 @@ import javafx.scene.layout.*;
 import javafx.stage.*;
 import javafx.util.Duration;
 
+/**
+ * @author Stephen Coady
+ * @date 31-03-15
+ * 
+ * Class to run the app once it has passed the first stage. 
+ * runs all major functions.
+ *
+ */
 public class MazeApp implements Initializable{
 
 	@FXML private BorderPane mainPanel = new BorderPane();
@@ -59,12 +67,20 @@ public class MazeApp implements Initializable{
 	private static int width;
 
 
+	/**
+	 * @param fileLocation - the location of the file to be used as the maze
+	 * @param console - the text to be set in the console of the app. used for when the app has been
+	 * previously running and console text needs to be saved and re-entered.
+	 */
 	public MazeApp(String fileLocation, String console)
 	{
 		MazeApp.fileLocation = fileLocation;
 		this.console = console;
 	}
 
+	/* (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -99,7 +115,12 @@ public class MazeApp implements Initializable{
 		}
 	}
 
-	public void displayInitialMaze() throws FileNotFoundException
+	/**
+	 * shows a blank maze with no solution upon startup.
+	 * 
+	 * @throws FileNotFoundException
+	 */
+	private void displayInitialMaze() throws FileNotFoundException
 	{
 		solver = new MazeSolver(fileLocation);
 		maze = solver.getMazeLayout();
@@ -128,8 +149,14 @@ public class MazeApp implements Initializable{
 
 	}
 
+	/**
+	 * 
+	 * displays the maze without solution, also used to clear the maze.
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	@FXML
-	public void displayMaze() throws FileNotFoundException
+	private void displayMaze() throws FileNotFoundException
 	{
 
 		solver = new MazeSolver(fileLocation);
@@ -156,6 +183,9 @@ public class MazeApp implements Initializable{
 
 	}
 
+	/**
+	 * a method to set up all arrays used to show the solutions of the maze
+	 */
 	private void prepareArrays()
 	{
 		stackSquares = new ArrayList<Square>();
@@ -191,8 +221,15 @@ public class MazeApp implements Initializable{
 		MazeApp.fileLocation = fileLocation;
 	}
 
+	/**
+	 * 
+	 * allows the user to choose a new file from the GUI
+	 * 
+	 * @param event - the event which triggered this method
+	 * @throws IOException
+	 */
 	@FXML
-	public void newFile(ActionEvent event) throws IOException
+	private void newFile(ActionEvent event) throws IOException
 	{
 		if(timeline!=null){
 			timeline.stop();
@@ -218,7 +255,11 @@ public class MazeApp implements Initializable{
 		}
 	}
 
-	public boolean openFile()
+	/**
+	 * shows a JavaFX file chooser window, with the parent being the window it was called from.
+	 * @return a boolean of whether the file choice has been successful.
+	 */
+	private boolean openFile()
 	{
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Maze File");
@@ -230,59 +271,16 @@ public class MazeApp implements Initializable{
 		return false;
 	}
 
-	/*
+
+	/**
 	 * 
-	 * a method to display the fully solved maze with yellow path drawn
-	 * 
+	 * solve the maze using stacks.
+	 * @throws FileNotFoundException
 	 */
 	@FXML
-	public void solveStack() throws FileNotFoundException
+	private void solveStack() throws FileNotFoundException
 	{
-		
-		if(timeline!=null){
-			timeline.stop();
-			timeline = null;
-		}
-		
-		double start = System.currentTimeMillis();
-		solver = new MazeSolver(fileLocation);
-		maze = solver.getMazeLayout();
 
-		if(solver.getMaze().getStartPoint()!=null && solver.getMaze().getFinishPoint()!=null)
-		{
-			Stack<Square> stack = solver.depthFirst();
-
-			gridDisplay = new GridDisplay(height, width);
-			gridDisplay.setMaze(maze);
-			int steps = stack.size()-1;
-			gridDisplay.colorSolved(stack);
-
-			double end = System.currentTimeMillis();
-			double totalTime = (end - start)/1000;
-			outputText.appendText("Solution found using STACK: \n");
-			outputText.appendText("---" + steps + " steps. \n");
-			outputText.appendText("---" + totalTime + " seconds. \n");
-			outputText.appendText("\n");
-			topPane.getChildren().clear();
-			topPane.getChildren().add(gridDisplay.getDisplay());
-			scrollPane.setContent(topPane);
-
-			topCanvas.getChildren().clear();
-			topCanvas.getChildren().add(scrollPane);
-
-
-			mainPanel.setCenter(topCanvas);
-		}
-		else
-		{
-			outputText.appendText("This maze is missing at least one critical point needed to find a solution. \n");
-		}
-	}
-
-	@FXML
-	public void solveQueue() throws FileNotFoundException
-	{
-		
 		if(timeline!=null){
 			timeline.stop();
 			timeline = null;
@@ -291,30 +289,95 @@ public class MazeApp implements Initializable{
 		double start = System.currentTimeMillis();
 		solver = new MazeSolver(fileLocation);
 		maze = solver.getMazeLayout();
+
 		if(solver.getMaze().getStartPoint()!=null && solver.getMaze().getFinishPoint()!=null)
 		{
-			ArrayList<Square> squares = solver.breadthFirst();
+			if(solver.getMaze().getHasSolution())
+			{
+				Stack<Square> stack = solver.depthFirst();
 
-			gridDisplay = new GridDisplay(height, width);
-			gridDisplay.setMaze(maze);
-			int steps = squares.size()-1;
-			gridDisplay.colorSolvedQueue(squares);
+				gridDisplay = new GridDisplay(height, width);
+				gridDisplay.setMaze(maze);
+				int steps = stack.size()-1;
+				gridDisplay.colorSolved(stack);
 
-			double end = System.currentTimeMillis();
-			double totalTime = (end - start)/1000;
-			outputText.appendText("Solution found using QUEUE: \n");
-			outputText.appendText("---" + steps + " steps. \n");
-			outputText.appendText("---" + totalTime + " seconds. \n");
-			outputText.appendText("\n");
-			topPane.getChildren().clear();
-			topPane.getChildren().add(gridDisplay.getDisplay());
-			scrollPane.setContent(topPane);
+				double end = System.currentTimeMillis();
+				double totalTime = (end - start)/1000;
+				outputText.appendText("Solution found using STACK: \n");
+				outputText.appendText("---" + steps + " steps. \n");
+				outputText.appendText("---" + totalTime + " seconds. \n");
+				outputText.appendText("\n");
+				topPane.getChildren().clear();
+				topPane.getChildren().add(gridDisplay.getDisplay());
+				scrollPane.setContent(topPane);
 
-			topCanvas.getChildren().clear();
-			topCanvas.getChildren().add(scrollPane);
+				topCanvas.getChildren().clear();
+				topCanvas.getChildren().add(scrollPane);
+
+				mainPanel.setCenter(topCanvas);
+			}
+			else 
+			{
+				outputText.appendText("No solution found. \n");
+				outputText.appendText("Play or step through the solution to see the path followed. \n");
+				outputText.appendText("\n");
+			}
+		}
+		else
+		{
+			outputText.appendText("This maze is missing at least one critical point needed to find a solution. \n");
+		}
+	}
+
+	/**
+	 * solve the maze using queues.
+	 * @throws FileNotFoundException
+	 */
+	@FXML
+	private void solveQueue() throws FileNotFoundException
+	{
+
+		if(timeline!=null){
+			timeline.stop();
+			timeline = null;
+		}
+
+		double start = System.currentTimeMillis();
+		solver = new MazeSolver(fileLocation);
+		maze = solver.getMazeLayout();
+		if(solver.getMaze().getStartPoint()!=null && solver.getMaze().getFinishPoint()!=null)
+		{
+			if(solver.getMaze().getHasSolution())
+			{
+				ArrayList<Square> squares = solver.breadthFirst();
+
+				gridDisplay = new GridDisplay(height, width);
+				gridDisplay.setMaze(maze);
+				int steps = squares.size()-1;
+				gridDisplay.colorSolvedQueue(squares);
+
+				double end = System.currentTimeMillis();
+				double totalTime = (end - start)/1000;
+				outputText.appendText("Solution found using QUEUE: \n");
+				outputText.appendText("---" + steps + " steps. \n");
+				outputText.appendText("---" + totalTime + " seconds. \n");
+				outputText.appendText("\n");
+				topPane.getChildren().clear();
+				topPane.getChildren().add(gridDisplay.getDisplay());
+				scrollPane.setContent(topPane);
+
+				topCanvas.getChildren().clear();
+				topCanvas.getChildren().add(scrollPane);
 
 
-			mainPanel.setCenter(topCanvas);
+				mainPanel.setCenter(topCanvas);
+			}
+			else 
+			{
+				outputText.appendText("No solution found. \n");
+				outputText.appendText("Play or step through the solution to see the path followed. \n");
+				outputText.appendText("\n");
+			}
 		}
 		else
 		{
@@ -324,8 +387,14 @@ public class MazeApp implements Initializable{
 	}
 
 
+	/**
+	 * allows the user to step through the path taken by the computer when it used stacks.
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 */
 	@FXML
-	public void solveStackByStep() throws FileNotFoundException, UnsupportedEncodingException
+	private void solveStackByStep() throws FileNotFoundException, UnsupportedEncodingException
 	{
 		if(timeline!=null){
 			timeline.stop();
@@ -368,7 +437,7 @@ public class MazeApp implements Initializable{
 	 * 
 	 */
 	@FXML
-	public void playStack() throws FileNotFoundException, UnsupportedEncodingException, InterruptedException
+	private void playStack() throws FileNotFoundException, UnsupportedEncodingException, InterruptedException
 	{
 
 
@@ -402,14 +471,17 @@ public class MazeApp implements Initializable{
 	}
 
 	@FXML
-	public void stopButton()
+	private void stopButton()
 	{
 		stopButton = true;
 		outputText.appendText("Auto-play stopped. \n");
 		outputText.appendText("\n");
 	}
 
-	public void playStackByStep()
+	/**
+	 * a sub method to play each step at a time.
+	 */
+	private void playStackByStep()
 	{
 		if(!stackSquaresByStep.isEmpty())
 		{
@@ -431,8 +503,14 @@ public class MazeApp implements Initializable{
 		}
 	}
 
+
+	/**
+	 * allows the user to step through the path taken by the computer when it used queues.
+	 * 
+	 * @throws FileNotFoundException
+	 */
 	@FXML
-	public void solveQueueByStep() throws FileNotFoundException
+	private void solveQueueByStep() throws FileNotFoundException
 	{
 		solver = new MazeSolver(fileLocation);
 		maze = solver.getMazeLayout();
@@ -462,8 +540,15 @@ public class MazeApp implements Initializable{
 		}
 	}
 
+	/**
+	 * 
+	 * allows the user to play the solution when a queue was used.
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 * @throws InterruptedException
+	 */
 	@FXML
-	public void playQueue() throws FileNotFoundException, UnsupportedEncodingException, InterruptedException
+	private void playQueue() throws FileNotFoundException, UnsupportedEncodingException, InterruptedException
 	{
 
 		// deals with resetting the maze each time play 
@@ -495,7 +580,10 @@ public class MazeApp implements Initializable{
 		timeline.play();
 	}
 
-	public void playQueueByStep()
+	/**
+	 * a sub method to play each step at a time.
+	 */
+	private void playQueueByStep()
 	{
 		if(!queueSquares.isEmpty())
 		{
@@ -521,15 +609,27 @@ public class MazeApp implements Initializable{
 		this.mainPanel = mainPanel;
 	}
 
+	/**
+	 * exit the app
+	 * @param event - the keyboard shortcut alt+q on mac or ctrl+q on windows
+	 * @throws IOException
+	 */
 	@FXML
-	public void exit(ActionEvent event) throws IOException
+	private void exit(ActionEvent event) throws IOException
 	{
 		Stage stage = (Stage) myMenuBar.getScene().getWindow();
 		stage.hide();
 	}
 
+
+	/**
+	 * 
+	 * go full screen
+	 * @param event - the keyboard shortcut alt+f on mac or ctrl+f on windows
+	 * @throws IOException
+	 */
 	@FXML
-	public void fullScreen(ActionEvent event) throws IOException
+	private void fullScreen(ActionEvent event) throws IOException
 	{
 		if(timeline!=null){
 			timeline.stop();
@@ -538,22 +638,29 @@ public class MazeApp implements Initializable{
 		stage.setFullScreen(true);
 	}
 
+
+	/**
+	 * show the about screen, which contains readme
+	 * @param event - the keyboard shortcut alt+a on mac or ctrl+a on windows
+	 * @throws IOException
+	 */
 	@FXML
-	public void about(ActionEvent event) throws IOException
+	private void about(ActionEvent event) throws IOException
 	{
 		if(timeline!=null){
 			timeline.stop();
 		}
-		
+
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("About.fxml"));
 		loader.setController(this.getClass());
 
-		
+
 		Stage mainStage = new Stage();
 		mainStage.setTitle("About Maze Solver");
 		Pane root = (Pane) loader.load();
 		Scene scene = new Scene(root);
 		mainStage.setScene(scene);
+		mainStage.setResizable(false);
 		mainStage.show();
 	}
 
