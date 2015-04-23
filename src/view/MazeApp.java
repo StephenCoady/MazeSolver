@@ -289,7 +289,8 @@ public class MazeApp implements Initializable{
 		double start = System.currentTimeMillis();
 		solver = new MazeSolver(fileLocation);
 		maze = solver.getMazeLayout();
-
+		solver.depthFirst();
+		
 		if(solver.getMaze().getStartPoint()!=null && solver.getMaze().getFinishPoint()!=null)
 		{
 			if(solver.getMaze().getHasSolution())
@@ -345,6 +346,8 @@ public class MazeApp implements Initializable{
 		double start = System.currentTimeMillis();
 		solver = new MazeSolver(fileLocation);
 		maze = solver.getMazeLayout();
+		solver.breadthFirst();
+		
 		if(solver.getMaze().getStartPoint()!=null && solver.getMaze().getFinishPoint()!=null)
 		{
 			if(solver.getMaze().getHasSolution())

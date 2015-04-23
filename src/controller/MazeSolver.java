@@ -31,7 +31,7 @@ public class MazeSolver
 		}
 
 	}
-	
+
 	private void setUp() throws FileNotFoundException
 	{
 		File file = new File(getFileLocation());

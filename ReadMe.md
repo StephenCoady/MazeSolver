@@ -1,3 +1,5 @@
+This is an assignment for a Data Strutures module in my second year. It uses Stacks and Queues to solve a maze. The GUI is written in JavaFX.
+
 ReadMe:
 
 Please note Java 8 is needed to run this program.
@@ -16,5 +18,3 @@ Below are a list of the features included:
 - Model, view, controller setup used.
 - Runnable JAR included (Java 8 on machine is needed).
 - Keyboard shortcuts implemented through menu items at top of GUI.
-
-Stephen Coady
